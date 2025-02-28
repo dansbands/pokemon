@@ -4,7 +4,12 @@ import usePokemonSearch from "./hooks/usePokemonSearch";
 
 function App() {
   const [search, setSearch] = useState("");
-  const { results, loading, error } = usePokemonSearch(search);
+  const [chaosMode, setChaosMode] = useState(false);
+  const { results, loading, error } = usePokemonSearch(search, chaosMode);
+
+  const handleToggleChaosMode = () => {
+    setChaosMode((prevChaosMode) => !prevChaosMode);
+  };
 
   return (
     <>
@@ -15,6 +20,9 @@ function App() {
         onChange={(e) => setSearch(e.target.value)}
         placeholder="Search for a Pokemon"
       />
+      <button onClick={handleToggleChaosMode}>
+        {chaosMode ? "Disable Chaos Mode" : "Enable Chaos Mode"}
+      </button>
       {loading && <p>Loading...</p>}
       {error && <p>Error - {error}</p>}
       {search.length > 0 && !results.length && <p>No Results</p>}
